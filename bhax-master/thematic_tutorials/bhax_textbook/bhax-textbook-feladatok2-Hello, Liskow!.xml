@@ -1,0 +1,32 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Liskow!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Liskow helyettesítés sértése</title>
+        <para/>
+    </section>
+    
+    <section>
+        <title>Szülő-gyerek</title>
+        <para/>
+    </section>
+    
+    <section>
+        <title>Anti OO</title>
+        <para/>
+    </section>    
+          
+    <section>
+        <title>Ciklomatikus komplexicitás</title>
+        <para/>
+    </section>   
+          
+          
+</chapter>  
+
+

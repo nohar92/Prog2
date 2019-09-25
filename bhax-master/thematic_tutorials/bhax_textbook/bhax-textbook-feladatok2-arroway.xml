@@ -1,0 +1,213 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Arroway!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>OO szemlélet</title>
+        <para>A már tavaly taglalt polárgenerátor implementálásával kezdjük a félévi munkát. Először
+            javában, majd c++ nyelven.</para>
+        <para><emphasis role="bold"> Java implementáció</emphasis></para>
+        <para>
+            <programlisting>public class PolarGenerator {
+    boolean nincsTarolt = true;
+    double tarolt;    
+public PolarGenerator() {
+nincsTarolt = true;
+}
+public double kovetkezo() {
+    if(nincsTarolt) {
+        double u1, u2, v1, v2, w;
+        do {
+            u1 = Math.random();
+            u2 = Math.random();
+            v1 = 2 * u1 - 1;
+            v2 = 2 * u2 -1;
+             w = v1 * v1 + v2 * v2;
+    } while (w > 1);
+
+double r = Math.sqrt((-2 * Math.log(w)) / w);
+tarolt = r * v2;
+nincsTarolt = !nincsTarolt;
+return r * v1;
+
+} else 
+{
+nincsTarolt = !nincsTarolt;
+return tarolt;
+}
+}
+public static void main(String[] args) {
+    PolarGenerator g = new PolarGenerator();
+    for(int i = 0; i &lt; 10; ++i) {
+        System.out.println(g.kovetkezo());
+}
+}
+}</programlisting>
+        </para>
+        <para>A program egyszerűen működik. Ha nincs tárolt érték, akkor legenerálunk kettő
+            randomszámot, majd általunk még nem ismert ( de majd alk.staton megtanuljuk) képletek
+            segítségével létrehozunk két számot. Az egyik számot eltárolja, míg a másikat
+            visszatéríti,  mindeközben hamisra állítja a <emphasis role="bold"
+                >nincs_Tarolt</emphasis> logikai változót.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/1.%20csokor/polar.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para>A lenti screenshot az openJDK Random.java forrásából származik. Lényegében ez a
+            metódus úgyanúgy műkődik, mint a mi kódunkban. Azonban mégis van különbség. Például a
+            lenti kódban a <emphasis role="bold">nextGaussian()</emphasis> metódus kapott egy
+                <emphasis role="bold">synchronized</emphasis> kulcsszót, amíg egy szál ezt a
+            metódust veszi igénybe, addig a többinek várnia kell.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/1.%20csokor/jdk.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para><emphasis role="bold">C++ implementáció</emphasis></para>
+        <para>
+            <programlisting>#include &lt;iostream>
+#include &lt;math.h>
+using namespace std;
+
+
+class polar
+{
+public:
+bool nincstarolt = true;
+double kovi();
+double tarolt;
+};
+
+double polar::kovi()
+{
+if(nincstarolt)
+    {
+    double u1,u2,v1,v2,w;
+    do 
+        {  u1 = ((double) rand() / (RAND_MAX));
+           u2 = ((double) rand() / (RAND_MAX));
+           v1 = 2*u1 -1;
+           v2 = 2*u2-1;
+           w = v1*v1+v2*v2;
+        }
+    while(w>1);
+
+double r = sqrt((-2*log(w))/w);
+tarolt = r* v2;
+    nincstarolt = !nincstarolt;
+    return r* v1;
+    }
+    else
+    {
+    nincstarolt = !nincstarolt;
+    return tarolt;
+    }
+}
+
+int main()
+{
+    polar g ;
+    for (int i=0; i&lt;10;i++)
+        cout &lt;&lt; g.kovi() &lt;&lt; endl;
+} </programlisting>
+        </para>
+    </section>
+    
+    <section>
+        <title>Gagyi</title>
+        <para>A Gagyiban a feladatunk egy bizonyítás volt. Mégpedig az, hogy alátámasszuk minta
+            programokkal a "while (x &lt;= t &amp;&amp; x >= t &amp;&amp; t != x);”
+            tesztkérdéstípust, hogy mikor lehet végtelen ciklus. Akkor lehet, ha x, t az egyik
+            esetben az objektum által hordozott érték, míg a másikban meg az objektum
+            referenciája.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/1.%20csokor/gagyi/nemvegtelen.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/1.%20csokor/gagyi/vegtelen.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Ahogy azt az ábra is mutatja ha x és t értéke -128, akkor a program futása
+            befejeződik, mivel a while ciklusban lévő feltétel nem teljesül. Viszont a második ábrán
+            azt láthatjuk, hogy végtelen ciklust kaptunk. Felmerül a kérdés, hogy lehetséges ez,
+            hisz a kódunk ugyanúgy nézz ki csak egy-egyszámmal tér el. A választ az openJDK
+                <emphasis role="bold">Integer.java</emphasis> fájlban találjuk, amit ezen a linken
+            meg is tekinthetünk. </para>
+        <para><link
+                xlink:href="https://hg.openjdk.java.net/jdk/jdk11/file/1ddf9a99e4ad/src/java.base/share/classes/java/lang/Integer.java#l997"
+            /></para>
+        <para><programlisting>cache = new Integer[(high - low) + 1];
+            int j = low;
+            for(int k = 0; k &lt; cache.length; k++)
+                cache[k] = new Integer(j++);</programlisting>A
+            megoldást a 997. sortól kezdődő <emphasis role="bold">IntegerCache</emphasis> osztályban
+            találhatjuk. A fenti kódcsipetben generáljuk le az Integer objektumokat, amíg -128 és
+            127 között választunk számot, akkor egy referenciát kapunk vissza a már legenerált
+            IntegerCache-ben</para>
+        <para>lévő objektumra, ami mind a két esetben, ugyan oda mutat, így a két objektum meg fog
+            egyezni és a ciklus feltétele nem fog teljesülni.</para>
+        <para>
+            <programlisting>public static Integer valueOf(int i) {
+        if (i >= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
+            return IntegerCache.cache[i + (-IntegerCache.low)];
+        return new Integer(i);
+    }</programlisting>
+        </para>
+        <para>Feljebb látható, hogy a range-en(-128-127) kívül megadott érték esetén a <emphasis
+                role="bold">return new Integer(i)</emphasis> fog lefutni, így 2 azonos értékű, de
+            különböző memóriacímű objektum jön létre , emiatt igazzá válik a x!=t feltétel és így
+            egy végtelen ciklust kapunk.</para>
+    </section>    
+          
+    <section>
+        <title>Yoda</title>
+        <para>Egy olyan Java programot kell készítenünk, ami java.lang.NullPointerEx-el leáll, ha
+            nem követjük a Yoda conditions-t! </para>
+        <para>
+            <programlisting>public class yoda
+{
+    public static void main (String[] args)
+    {
+        String yodaString = null;
+
+        if(("valami").equals(yodaString)){
+        System.out.println ("apu");
+        }
+
+        if(yodaString.equals("anyu")) 
+        {
+        System.out.println ("apu");
+        }
+    }
+}</programlisting>
+        </para>
+        <para>Létrehozunk egy string objektumot, amit nullra állítunk. Az első if-nél egy stringet
+            hasonlít egy null értékű string objektumhoz. Ez minden lehetséges. Viszont a második
+            if-nél  egy inicializálatlan string objektumra tagfüggvényt hívunk meg. </para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/1.%20csokor/Yoda/exception.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para> </para>
+    </section>   
+          
+          
+</chapter>  
+
+
