@@ -1,0 +1,189 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Gödel!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>GIMP Scheme Hack</title>
+        <para>Írj olyan script-fu kiterjesztést a GIMP programhoz, amely név-mandalát készít a
+            bemenő szövegből!</para>
+        <para><link
+                xlink:href="https://bhaxor.blog.hu/2019/01/10/a_gimp_lisp_hackelese_a_scheme_programozasi_nyelv"
+            /></para>
+        <para><link
+                xlink:href="https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/GIMP_Lisp/Mandala"
+            /></para>
+        <para>A mandala lényegében egy olyan ábra, ami középpontosan forgatva többször</para>
+        <para>is kiadja önmagát. Azaz miközben 360 fokos forgatást végzünk a középpontja körül
+            néhány fokonként újra. Tavaly ezt a feladatot nemcsináltam meg , mert azt hittem nehéz,
+            de valójában tök egyszerű volt.</para>
+        <para>A feladat megoldásához felhasználtam  Tanár úr forráskódját, meg a Gimp 2.0  nevű
+            programot. Elöszőr is bele kellett helyeznem a <emphasis role="bold"
+                >mandala9.scm</emphasis> fájlt a  /usr/share/gimp/2.0/scripts/    mappába. Ezután
+            már megtudtam nyitni a gimp-ben. Ezt a forrást némiképp módosítottam a
+            következőképpen.</para>
+        <para>
+            <programlisting>SF-STRING       "Text2"     "Esmeralda"
+SF-FONT         "Font"      "Times New Roman"
+SF-ADJUSTMENT   "Font size" '(100 1 1000 1 10 0 1)
+SF-VALUE        "Width"     "500"
+SF-VALUE        "Height"    "500"
+SF-COLOR        "Color"     '( 2 0 255)
+SF-GRADIENT     "Gradient"  "Incandescent"</programlisting>
+        </para>
+        <para>A nevek elég beszédesek. Első sorban gyakorlatilag csak átírtam a stringet
+            Esmeraldára. Ez jelenik meg a mandala közepében.A második sorban át állítottam a
+            betűtípust times new roman-ra. A harmadik sorban a betűméretet állítottam be. </para>
+        <para>Ezután a kép szélességét, magasságát állítottam 500*500-ra, majd RGB színkódolás
+            használatával a színt állítottam be. Végül, de nem utolsó sorban incandestent stílussal
+            megbolondítottam egy kicsit.</para>
+        <para>És a végeredmény, így nézz ki. </para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/6.csokor/gimp/esmeralda.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+    </section>
+
+    <section>
+        <title>STL map érték szerinti rendezése</title>
+        <para> A következőkben egy map adatszerkezetet rendezek érték szerint.</para>
+        <para>
+            <programlisting>package sort;
+import java.util.*;
+
+public class sort {
+    sort() {
+        Map&lt;String, Integer> exGirlfriends = new HashMap&lt;String, Integer>();
+        exGirlfriends.put("Szilvi", 26);
+        exGirlfriends.put("Fruzsi", 26);
+        exGirlfriends.put("Reni", 22);
+        exGirlfriends.put("Vivi", 25);
+        exGirlfriends.put("Anna", 25);
+        exGirlfriends.put("Maja", 27);
+        exGirlfriends.put("Adri", 22);
+        exGirlfriends.put("Kiara", 22);
+        exGirlfriends.put("Réka", 26);
+        exGirlfriends.put("Lívia", 20);
+        exGirlfriends.put("Melinda", 26);
+
+        exGirlfriends = value_sorting(exGirlfriends);
+        System.out.println(exGirlfriends);
+    }</programlisting>
+        </para>
+        <para>Először létrehoztam egy konstruktort, amibe elsőnek implementáltam egy map
+            adatszerkezet. Ezt feltöltöttem az exbarátnőim neveivel, mint kulcsok, valamint a
+            jelenlegi korukat, mint értékek. Ezután meghívom a value_sorting() metódusomat, majd
+            kiíratom a rendezett mapot.</para>
+        <para>
+            <programlisting> public LinkedHashMap&lt;String, Integer> value_sorting(Map&lt;String, Integer> exGirlfriends) {
+        ArrayList&lt;String> girlsName = new ArrayList&lt;String>(exGirlfriends.keySet());
+        ArrayList&lt;Integer> age = new ArrayList&lt;Integer>(exGirlfriends.values());
+        Collections.sort(girlsName);
+        Collections.sort(age);
+        LinkedHashMap&lt;String, Integer> sorted = new LinkedHashMap&lt;String, Integer>();
+
+        Iterator&lt;Integer> ertekit = age.iterator();
+
+        while (ertekit.hasNext()) {
+            Integer val = ertekit.next();
+            Iterator&lt;String> kulcsit = girlsName.iterator();
+            
+            while (kulcsit.hasNext()) {
+                String kulcs = kulcsit.next();
+                Integer elso = exGirlfriends.get(kulcs);
+                if (elso.equals(val))
+                {
+                    sorted.put(kulcs,elso);
+                }}}
+        return sorted;
+    }</programlisting>
+        </para>
+        <para>Az value_sorting függvény egy linkedHashMap-et ad vissza és paraméterként egy Map-ot
+            vár, aminek a kulcsa String és értéke Integer. Két ArrayList-be külön választom az
+            exeimet és a korukat, majd a Collections.sort metódussal rendezzük őket növekvő
+            sorrendbe. Létrehozok még egy hashmap-ot, amibe a rendezett értékeket rakjuk,majd a
+            függvény visszatér vele. Egy iterátort csinálunk az age-re és egy ciklusba végig megyünk
+            az age ArrayList-en. Egy integer objektumba az iterátor következő elemét
+            lekérjük,illetve csinálunk még egy iterátort az exeim nevére és egy belső ciklussal azon
+            is végig megyünk, ahogy ezt én is megtettem az évek alatt. Ha az elso egyenlő a val
+            objektummal, akkor a hashMap-be berakjuk a kulcs és elso változókat. Majd végén
+            visszaadjuk arendezés
+            eredményét.<programlisting> public static void main(String args[]){
+        new sort();
+    }</programlisting></para>
+        <para>Végül példányosítom az előzőekben implementált sort konstruktort.</para>
+        <para>
+            <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/6.csokor/STLmap%20/exeim.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+
+    <section>
+        <title>Alternatív Tabella rendezése</title>
+        <para>A feladat az volt, hogy mutassuk be a <link
+                xlink:href="https://progpater.blog.hu/2011/03/11/alternativ_tabella"
+                >https://progpater.blog.hu/2011/03/11/alternativ_tabella </link> programban a
+            java.lang Interface Comparable&lt;T> szerepét!</para>
+        <para>Vizsgáljuk meg azokat a csipeteket, ahol használjuk a comparable interfészt. Ez az
+            interfész tartalmazza a legáltalánosabb rendezési eljárásokat, ami megengedi az
+            osztálynak, hogy automatikusan rendezve legyen valamilyen szempont szerint.</para>
+        <para>
+            <programlisting>java.util.List&lt;Csapat> rendezettCsapatok = java.util.Arrays.asList(csapatok);
+java.util.Collections.sort(rendezettCsapatok);</programlisting>
+        </para>
+        <para>Létrehozok egy listát, ami a Csapat osztály objektumait tartalmazza. A
+            java.utils.Arrays osztály <emphasis role="bold">aslist()</emphasis> metódusa lehetővé
+            teszi, hogy fix méretű legyen listánk.</para>
+        <para>Ha a listánk olyan objektumokat tartalmaz, amik nem valósítják meg a Comparable
+            interfészt, akkor a <emphasis role="bold">Collections.sort()</emphasis> hívás
+            ClassCastException kivételt fog dobni.</para>
+        <para>
+            <programlisting>class Csapat implements Comparable&lt;Csapat> {
+
+  protected String nev;
+  protected double ertek;
+
+  public Csapat(String nev, double ertek) {
+    this.nev = nev;
+    this.ertek = ertek;
+  }
+
+  public int compareTo(Csapat csapat) {
+    if (this.ertek &lt; csapat.ertek) {
+      return -1;
+    } else if (this.ertek > csapat.ertek) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+}</programlisting>
+        </para>
+        <para> A comparable interfész egy metódust tartalmaz, mégpedig a <emphasis role="bold"
+                >compareTo()</emphasis> metódust, ami összehasonlítja az objektumot az átvett
+            objektummal, és ahogy a kódcsipetben is láthatjuk visszatérési értéke negatív egész, ha
+            az objektum kisebb, mint amihez hasonlítjuk, pozitív egész, ha nagyobb, illetve  nulla,
+            ha vele megegyező.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/6.csokor/tabella/tabella.png"
+                    />
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+    </section>
+
+    
+
+
+</chapter>

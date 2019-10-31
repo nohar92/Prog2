@@ -21,15 +21,79 @@
                 <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
             </para>
         </xi:fallback>
-    </xi:include>     
-    
-<xi:include href="bhax-textbook-feladatok2-olvasonaplo.xml">
+    </xi:include>
+
+<xi:include href="HelloLiskov.xml">
         <xi:fallback>
             <para>
                 <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
             </para>
         </xi:fallback>
-    </xi:include> 
+    </xi:include>
+
+    <xi:include href="olvasonaplo.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
+
+    <xi:include href="HelloMandelbrot.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
     
+<xi:include href="HelloChomszky.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
+
+<xi:include href="HelloStroustrup.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
+
+<xi:include href="HelloGodel.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
+
+ 
+<xi:include href="HelloValami.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
+
+<xi:include href="HelloLauda.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
+ 
+<xi:include href="HelloCalvin.xml">
+        <xi:fallback>
+            <para>
+                <emphasis>XInclude: bhax-textbook-motto.xml file not found</emphasis>
+            </para>
+        </xi:fallback>
+    </xi:include>
             
 </part>  

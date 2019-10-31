@@ -1,0 +1,278 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Stroustrup!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    <section>
+        <title>JDK osztályok</title>
+        <para>A feladatunk az volt , hogy írjunk olyan Boost C++ programot, (indulj ki például a
+            fénykardból) amely kilistázza a JDK összes osztályát (miután kicsomagoltuk az src.zip
+            állományt, majd arra ráengedve)!</para>
+        <para>Részletesen elemezni fogom az egész kódot. Ha ezt elolvasod, biztosra veszem, hogy
+            teljesen meg fogod érteni, hogyan működik a program. Leírom azokat a hibákat is , amiket
+            mindeközben vétettem, ebből is tanulva. Csapjunk bele. Először nézzük meg a
+            fejlécállományokat.</para>
+        <para>
+            <programlisting>#include &lt;iostream>
+#include &lt;vector>
+#include &lt;string>
+#include &lt;stdio.h>
+#include &lt;boost/filesystem.hpp>
+#include &lt;boost/filesystem/fstream.hpp>
+#define GetCurrentDir getcwd</programlisting>
+        </para>
+        <para><emphasis role="bold">iostream</emphasis>: Segítségével lehet mindenféle
+            bemeneti/kimeneti adatfolyamatokat végrehajtani. Jelen esetben a <emphasis role="bold"
+                >cout</emphasis> miatt használjuk, hogy tudjunk kiírni vele a képernyőre.</para>
+        <para><emphasis role="bold">string:</emphasis> Lehetővé teszi számunkra, a karakterláncok
+            használatát.</para>
+        <para><emphasis role="bold">vector</emphasis>: Lehetővé teszi számunkra a vector
+            használatát, ami egy dinamikusan növelhető tömb adatszerkezet, úgy működik, hogy
+            lefoglal egy folytonos tárhelyet a memóriában, ami ha megtelik lefoglal egy nagyobbat,
+            egy kétszer akkora tárat, mint eredetileg volt, és átmásolja oda a tartalmat.
+            Biztosítja, hogy a tartalmazó elemek egymást követő helyeken legyenek a
+            memóriában.</para>
+        <para><emphasis role="bold">stdio.h.:</emphasis> A C nyelvben használatos könyvtár
+            bemeneti/kimeneti műveletek végrehajtására. Ez a könyvtár az úgynevezett streameket
+            használja a fizikai eszközökkel történő működéshez, úgymint billenetyűzet, nyomtató
+            terminál.  Különböző makrók is vannak definiálva benne. Jelen esetben a <emphasis
+                role="bold">FILENAME_MAX</emphasis> konstans makró miatt inklúdoltam ezt a fejlécet.
+            Ez a makró visszadja az adott könyvtár által engedélyezett leghosszabb karakterlánc
+            méretét byte-ban.</para>
+        <para><emphasis role="bold">boost.filesystem</emphasis>: E könyvtár használata könnyebbé
+            teszi a fájlokkal,könyvtárakkal való munkát. Tartalmazza a boost::filesystem::path
+            osztályt, ami lehetővé teszi az elérési útvonalak ábrázolását és feldolgozását.</para>
+        <para> Alább létrehoztam egy vector függvényprototípust,ami egy folders nevű vectort vár
+            paraméterként, valamint  a <emphasis role="bold">readClasses</emphasis> függvényt,
+            amiket  a későbbiekben definiálok is.</para>
+        <para>
+            <programlisting>vector&lt;string> searchRootFolders(vector&lt;string> folders);
+void readClasses(string path, vector&lt;string> &amp;classes);
+</programlisting>
+        </para>
+        <para>Az alábbi kódcsipetet a következő linken található oldalról mentettem le. Bátfai tanár
+            Úr saját bevallása szerint ő is sokszor , így oldja meg az éppen lekódolandó problémát.
+            Naszóval implementáljuk a <emphasis role="bold">GetCurrentWorkingDir</emphasis>
+            metódust, ami vissza adja az éppen használatos könyvtárat. Amit majd később a main
+            függvényünkben használunk. </para>
+        <para><link
+                xlink:href="http://www.codebind.com/cpp-tutorial/c-get-current-directory-linuxwindows/"
+            /></para>
+        <para>
+            <programlisting>string GetCurrentWorkingDir(void)
+{
+    char buff[FILENAME_MAX];      
+    GetCurrentDir(buff, sizeof(buff));
+
+    string current_working_dir(buff);
+    return current_working_dir;
+}
+</programlisting>
+        </para>
+        <para>Ezután definiáltam a readClasses függvényt, ami kap egy path paramétert.Megnézi, hogy
+            ez egy fájlt takar-e, ha igen, akkor megnézi a fájl kiterjesztését is. Ha .java a
+            kiterjesztése, akkor a <emphasis role="bold">push_back</emphasis>-kell beletöltjük a
+            korábban létrehozott <emphasis role="bold">classes</emphasis> nevű vektorunkba. Ha
+            viszont könyvtár a path, akkor megint meghívjuk rá a readClasses függvényt, mindenzt egy
+            foreach ciklus belsejében, így gyakorlatilag rekurzívan tudunk végigmenni az egész
+            könyvtárszerkezeten.</para>
+        <para>
+            <programlisting>void readClasses(boost::filesystem::path path, vector&lt;string> &amp;classes)
+{
+    if (is_regular_file(path))
+    {
+        std::string ext(".java");
+        if (!ext.compare(boost::filesystem::extension(path)))
+        {
+            classes.push_back(path.string());
+        }
+    }
+    else if (is_directory(path))
+    {
+        for (boost::filesystem::directory_entry &amp; entry : boost::filesystem::directory_iterator(path))
+            readClasses(entry.path(), classes);
+    }
+}</programlisting>
+        </para>
+        <para>A kövi csipetben a <emphasis role="bold">searchRootFolders</emphasis>-t
+            implementáltam. Ahogy a nevében is benne van, gyökérkönyvtárakat keres egy foreach
+            ciklus segítségével, jelen esetben 1 ilyen van, erre meghívjuk a readClasses metódust.
+            Végül a searchRootFolders visszatér a classes vektorral.</para>
+        <para>
+            <programlisting>vector&lt;string> searchRootFolders (vector&lt;string> folders)
+ {
+     vector&lt;string> classes;
+    for (const auto &amp;path : folders)
+    {
+        boost::filesystem::path root (path);
+        readClasses (root, classes);
+    }
+    return classes;
+ }</programlisting>
+        </para>
+        <para>A main függvényünkben egy stringeket tároló vectorba berakjuk, hogy pontosan hol
+            található a forráskódunk és onnan belépünk az src mappába. Majd a classes vektort
+            feltöltjük, azokkal az elemmekkel, amiket a searchRootFolders függvény ad vissza. Ezután
+            egy <emphasis role="bold">foreach</emphasis> ciklus segítségével kiírjuk az összes
+            érintett osztályt, majd ezek darabszámának összegét is, a <emphasis role="bold"
+                >size()</emphasis> tagfüggvény segítségével.</para>
+        <para>
+            <programlisting>int main(int argc, char const *argv[])
+{
+    vector&lt;string> roots = {GetCurrentWorkingDir() + "/" + "src"};
+
+    vector&lt;string> classes = searchRootFolders(roots);
+    for (auto &amp;i : classes)
+    {
+        cout &lt;&lt; i &lt;&lt; endl;
+    }
+
+    cout &lt;&lt; "The number of the classes what we have is: " &lt;&lt; classes.size() &lt;&lt; " \n";
+    return 0;
+}</programlisting>
+        </para>
+        <para>Végül nézzük a hibákat, amiket vétettem. Az első hiba egy betű elírása volt. Ezt
+            könnyen orvosoltam :) A második meg a rossz zárójelezés volt.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/5.csokor/jdk/error1.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Ezek után azt, gondoltam nem lesz több gond vele, kész van. De amikor le akartam
+            fordítani , nagyon sok hibát kaptam. </para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/5.csokor/jdk/error2.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Rákerestem erre : undefined reference to `boost::system::generic_category()' . </para>
+        <para><link
+                xlink:href="https://stackoverflow.com/questions/13467072/c-boost-undefined-reference-to-boostsystemgeneric-category"
+            /></para>
+        <para>Kiderült, hogy linkelési hibákat kaptam, hozzá kellett adnom a <emphasis role="bold"
+                >-lboost_system</emphasis> kapcsolót a parancshoz. De ezek után se működött
+            :(</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/5.csokor/jdk/error3.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Viszont rájöttem, hogy kell még egy kapcsoló. Ugye az előbbinél a hiba így kezdődött:
+            in function '<emphasis role="bold">boost::system</emphasis>::error. Itt a másodiknál is
+            hasonló volt csak itt <emphasis role="bold">boost::filesystem</emphasis> errot kaptam.
+            Ebből jöttem rá, hogy milyen kapcsolót kell hozzá írni még, hogy működjön. Bár ezt a
+            headerfájlokból is tudnom kellett volna. Hát na...</para>
+        <para>
+            <programlisting>g++ jdk.cpp -o jdk -lboost_system -lboost_filesystem 
+</programlisting>
+        </para>
+        <para>Végül csak sikerült. A poén, hogy a végén kiderült , Tanár úr fénykard nevű progijában
+            benne van, hogy hogyan kell fordítani. Bár ott vannak más kapcsolók is használva, de
+            ebben a programban nem kellett használnom azokat a headerfájlokat. Legközelebb  csak  el
+            kéne olvasni a kommentjeit.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/5.csokor/jdk/classes.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para> </para>
+    </section>
+    <section>
+        <title>Másoló-mozgató szemantika</title>
+        <para> </para>
+        <para>Kódcsipeteken (copy és move ctor és assign) keresztül vesd össze a C++11 másoló és a
+            mozgató szemantikáját, a mozgató konstruktort alapozd a mozgató értékadásra!</para>
+        <para>Kézenfekvő volt, hogy az LZWBinfa osztályt használjam fel, hisz tavaly védési
+            feladatunk volt.</para>
+        <para>Nézzük az első kódcsipetet. </para>
+        <para>
+            <programlisting>Binfa (Binfa&amp;&amp; regi)
+    {
+        gyoker = nullptr;
+        *this =std::move(regi);
+    }
+    Binfa&amp; operator= (Binfa&amp;&amp; regi)
+    {
+        std::swap(gyoker, regi.gyoker);
+        return *this;
+    }</programlisting>
+        </para>
+        <para>A mozgató konstruktor egy balértéket vár paraméterként.Ezt az értéket a move()
+            függvénnyel állítjuk elő. A gyökér elemet nullptr-re állítjuk. Mindezek előtt az egyenlő
+            operátor miatt meghívódik a Binfa&amp; ... függvény, aminek a törzsében a gyökeret
+            felcseréljük egy új gyökérrel.</para>
+        <para>
+            <programlisting>Binfa (const Binfa&amp; regi)
+{
+    gyoker=regi.gyoker;
+    gyoker->ujjobbegy(masol(regi.gyoker->getjobegy()));
+    gyoker->ujbalnulla(masol(regi.gyoker->getbalnulla()));
+}
+</programlisting>
+        </para>
+        <para>A másoló konstruktor egy constans binfa referenciát vár paraméterként. Az új gyökérből
+            régi gyökér lesz, majd a gyökér jobbegy és balnulla elmeibe bemásoljuk a a régi gyökér
+            jobbegy és balnull elemeit.</para>
+        <para>
+            <programlisting>Csomopont* masol(Csomopont* elem)
+{
+    if(elem->balnulla!=NULL and elem->jobbegy!=NULL)
+    {    
+        masol(elem->getbalnulla());
+        masol(elem->getjobegy());
+    }
+return elem;
+}</programlisting>
+        </para>
+        <para>A <emphasis role="bold">Csomopont* masol()</emphasis> az elemeket adja vissza
+            rekurzívan, egészen addig, amíg nem lesznek nullptr-ek.</para>
+        <para>
+            <programlisting> kiFile &lt;&lt;"Eredeti"&lt;&lt;endl&lt;&lt; binFa;
+
+    kiFile &lt;&lt; "depth = " &lt;&lt; binFa.getMelyseg () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "mean = " &lt;&lt; binFa.getAtlag () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "var = " &lt;&lt; binFa.getSzoras () &lt;&lt; std::endl;
+    Binfa binFa2 = binFa;
+    Binfa binFa1 =std::move(binFa);
+
+    kiFile &lt;&lt;endl&lt;&lt;"regi mozgatas utan:"&lt;&lt;endl&lt;&lt;endl&lt;&lt; binFa;
+
+    kiFile &lt;&lt; "depth = " &lt;&lt; binFa.getMelyseg () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "mean = " &lt;&lt; binFa.getAtlag () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "var = " &lt;&lt; binFa.getSzoras () &lt;&lt; std::endl;
+
+binFa.~Binfa();
+
+    kiFile &lt;&lt; endl&lt;&lt;"Másoltt fa:"&lt;&lt;endl&lt;&lt;binFa2;
+
+    kiFile &lt;&lt; "depth = " &lt;&lt; binFa2.getMelyseg () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "mean = " &lt;&lt; binFa2.getAtlag () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "var = " &lt;&lt; binFa2.getSzoras () &lt;&lt; std::endl;
+    kiFile&lt;&lt;endl;
+    kiFile &lt;&lt;"Eredeti"&lt;&lt;endl&lt;&lt; binFa;
+
+    kiFile &lt;&lt; endl&lt;&lt;"Mozgatott fa:"&lt;&lt;endl&lt;&lt;binFa1;
+
+    kiFile &lt;&lt; "depth = " &lt;&lt; binFa1.getMelyseg () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "mean = " &lt;&lt; binFa1.getAtlag () &lt;&lt; std::endl;
+    kiFile &lt;&lt; "var = " &lt;&lt; binFa1.getSzoras () &lt;&lt; std::endl;</programlisting>
+        </para>
+        <para>A végén kiíratom az Eredeti fát majd mozgatom azt és másolom majd kiíratom az eredeti
+            fát mozgatás után, meghívom rá a destruktort, kiíratom a másolt fát illetve ismét az
+            eredeti fát valamint a Mozgatott fát.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/5.csokor/mozgato/eredmeny.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+    <section>
+        <title/>
+        <para> </para>
+        <para> </para>
+    </section>
+</chapter>

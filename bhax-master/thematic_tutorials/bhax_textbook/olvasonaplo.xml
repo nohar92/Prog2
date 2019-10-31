@@ -1,0 +1,274 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Olvasó napló!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Python</title>
+        <para>Sokszor előfodul alkalmazás fejlesztése közben, hogy egy adott problémát C, C++
+            vagyéppen java nyelven macerás megírni. Ilyenkor nagy szolgálatot tud tenni nekünk
+            apython nyelv, ahol nincs szükség fordításra, mivel az értelmezőnek elég megadni a
+            forrást és automatikusan futtatja az alkalmazást.</para>
+        <para>Adott alkalmazás elkészítése a már említett nyelveken sokkal nehezebb, több időt vesz
+            igénybe és jóval hosszabb kódot von maga után.</para>
+        <para>Sokszor előfodul alkalmazás fejlesztése közben, hogy egy adott problémát C, C++ agyépp
+            java nyelven macerás megírni. Ilyenkr nagy szolgálatot tud tenni nekünk a python nyelv,
+            ahol nincs szükség fordításra, mivel az értelmezőnek elég megadni a forrást és
+            automatikusan futtatja az alkalmazást.</para>
+        <para>Adott alkalmazás elkészítése a már említett nyelveken sokkal nehezebb, több időt vesz
+            igénybe és jóval hosszabb kódot von maga után.</para>
+        <para>Van egy úgynevezett python kódkönyvtár, ami rengeteg modult tartalmaz, amik
+            megyorsítják a kódírást. Pl.: fájlkezelés, hálózatkezelés, rendszerhívások felhasznkálói
+            felület készítése.</para>
+        <para>Köztes nyelv, nincs szükség linkelésre, fordításra. Tömör, de jól értelmezhető kódokat
+            tudunk benne írni.</para>
+        <para><emphasis role="bold">Kód szerkesztése</emphasis></para>
+        <para>behúzás alapú: nincsenek kapcsos zárójelek, egy adott blokk végét egy kisebb behúzású
+            sor jelzi. Az első utasítás nem lehet behúzott.</para>
+        <para>sor végéig tart egy utasítás, így nem kell a ; jelet használni. Hanem fér ki egy
+            sorba, akkor \ jellel jelezzük.</para>
+        <para>Tokenek:</para>
+        <para>azonosító, kulcsszó, operátor, delimiter, literál</para>
+        <para>Kis- nagy betű érzékeny.</para>
+        <para>megjegyzések a # jel után használható.</para>
+        <para>sor végéig tart egy utasítás, így nem kell a ; jelet használni. Hanem fér ki egy
+            sorba, akkor \ jellel jelezzük.</para>
+        <para>Tokenek:</para>
+        <para>azonosító, kulcsszó, operátor, delimiter, literál</para>
+        <para>Kis- nagy betű érzékeny.</para>
+        <para>megjegyzések a # jel után használható.</para>
+        <para><emphasis role="bold">Típusok</emphasis></para>
+        <para>Minden adatot objektumok reprezentálnak. Az objektum típusa határozzameg, hogy milyen
+            művelet használhatón rajta. Nem kell a változókat explicit megadni, a rendszer futtási
+            időben kitalálja a azt, a hozzárendelt érték alapján.</para>
+        <para>Adattípusok: számok, sztringek, ennesek, listák, szótárak.</para>
+        <para>számok: egész, lebegőpontos, komplex</para>
+        <para>sztring: idézőjel vagy aposztróf is haszálható.</para>
+        <para>ennesek: objektumok gyűjteményei vesszővel elválasztva, Általában zárójelekbe írjuk
+            őket.</para>
+        <para>lista: rendezett szekvencia,a típusok lehetnek különbözőek is. Szögletes zárójelek
+            közé írjuk őket.</para>
+        <para>szótár: kulcsokkal azonosított elemek rendezetlen halmaza.AZ elemek lehetnek különböző
+            típusúak is, Használata: {} között vesszővel elválasztva.</para>
+        <para>Minden adatot objektumok reprezentálnak. Az objektum típusa határozza meg, hogy milyen
+            művelet használható rajta. Nem kell a változókat explicit megadni, a rendszer futtási
+            időben kitalálja a azt, a hozzárendelt érték alapján.</para>
+    </section>
+    
+    <section>
+        <title>Java és C++ összehasonlítása</title>
+        <para>A java nyelv tervezői a C és C++ nyelv szintaxisát vették alapul. Sok minden
+            hasonlóságot fedezhetünk felakét nyelv között, de fontos megjegyezni, hogy a hasonlóság
+            nem azonosság.</para>
+        <para><emphasis role="bold">Objektummodellek különbözősége</emphasis></para>
+        <para>A C++ nyelvben az objektumok  a memória egy összefüggő területén elhelyezkedő
+            bájtsorozatok. A pointerek révén közvetlenül manipulálhatjuk a memóriát. Viszont a java
+            nyelvben a memóriát nem tudjuk közvetlenül elérni, csak hivatkozásokon keresztül. A
+            javában nincs linker, így nincs, ami címekké oldaná fel a hivatkozásokat.</para>
+        <para>A java ismeri egy osztály kompatibilis megváltoztatásának fogalmát. Ha a hivatkozott
+            osztályban megváltoznak a tagok vagy függvények deklarációs sorrendje, vagy újjal
+            bővülnek, akkor a hivatkozó osztály újrafordítás nélkül is érvényes marad.</para>
+        <para>A java virtuális gép az objektumokat egy szemétgyűjtő mechanizmus által ellenörzött
+            tárterületen tárolja( garbagge collector). Ezért egy metódus paramétere és
+            visszatérítési értéke is csak primitív típusú vagy objektumhivatkozás lehet, de maga az
+            objektum nem. A java nyelvben nincs auto destruktor-hívó mechanizmus.</para>
+        <para>Legyen T egy típus. Adott az alábbi kódrészlet
+            C++-ban:<programlisting>T  x;</programlisting></para>
+        <para>A fenti csipet egy T típusú objektumot hoz létre annak alapértelmezett
+            konstruktorával. Viszont javában ez egy inicializálatlan T típusú változót hoz
+            létre,szóval jelentésben inkább erre
+            hasonlít.<programlisting>T  *x;</programlisting></para>
+        <para>Vagy például:<programlisting>T  w[10];</programlisting></para>
+        <para>Egy  T-kből álló tömböt kezdőértékadás nélkül csak úgy tudunk felvenni, ha a T
+            osztálynak van alap konstruktora, hiszen ez végzi az inicializálást.Viszont
+            java-ban</para>
+        <para>
+            <programlisting>T  W[] = new T[10];</programlisting>
+        </para>
+        <para>a fenti kód hatására egy hivatkozásokból álló 10 elemű tömb fog létrejönni, amiben
+            mindegyik elem null értékű lesz.  </para>
+        <para>A javaban ugye nincs destruktor mechanizmus, ezt a <emphasis role="bold"
+                >finalize()</emphasis> metódus tudja úgy-ahogy  pótolni. </para>
+        <para>A C++ nyelvben pontosan tudjuk, hogy meddig "él" egy objektum, a deklaráló blokkba
+            való belépéskor kezdődik és a blokk végrehajtásának végén törlődnek. A memóriában
+            foglalt objektumok élettartamát mi szabályozzuk a <emphasis role="bold">new</emphasis>
+            valamint <emphasis role="bold">delete</emphasis> operátorokkal.</para>
+        <para>Javában nincsenek globális változók és függvények, csak osztályokhoz és interfészekhez
+            tartozó metódusok, változók, konstansok.</para>
+        <para><emphasis role="bold">Kommentek</emphasis></para>
+        <para>A C++-ban megszokott /* */  és // jeleken kívűl lehetőségünk van használni a /**
+            dokumentációs kommentet. Így a javadoc segítségével HTML- formátumú dokumentációt
+            készíthetünk.</para>
+        <para><emphasis role="bold">Előfordító</emphasis></para>
+        <para>C++-ban fordításkor preprocesszor dolgozza fel: kifejti a makrókat, behelyettesíti a
+            definiált szimbólumokat, beemeli a header fájlokat. Viszont a java nem rendelkezik
+            előfordítóval, így nem támogatja a header fájlok beemelését, valamint a makrókat sem.
+            Viszont valamilyen szinten támogatja a szimbólumbehellyettesítést, mégpedig úgy, hogy a
+            szimbólumként való használatra szánt azonosítókat valamilyen osztályban vagy
+            interfészben  <emphasis role="bold">final static</emphasis> adattagként
+            definiálhatja.</para>
+        <para><emphasis role="bold">Header fájlok</emphasis></para>
+        <para>Ahhoz, hogy a több különböző forrásból is hivatkozott objektumokat következetesen
+            használjuk, az állományokban azonosan kell deklarálnunk őket. Ezeket a közös
+            deklarációkat tudjuk egy header fájlban elhelyezni. Így tudjuk garantálni a deklarációk
+            megegyezőségét. </para>
+        <para>Viszont a java-nak nincs ilyen mechanizmusa és nincs is szüksége rá. Hisz a java
+            fordítóprogram a hivatkozott osztályok tulajdonságait alapvetően a class-fájlokból
+            veszi.</para>
+        <para>A C++-ban egy osztály deklarációja és definíciója eékülönül, és a deklaráció végső
+            zárójele után pontosvesszőt kell raknunk. Viszont javában lehet, de nem szükséges a
+            pontos vesszőt kirakni.</para>
+        <para>Ha egy osztály definíciót egy másik osztályból felszeretnénk használni, az <emphasis
+                role="bold">import</emphasis> paranccsal tehetjük láthatóvá a szükséges
+            neveket.</para>
+        <para/>
+        <para>
+            <emphasis role="bold">Primitív típusok</emphasis></para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/1.%20csokor/tipusok.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Javában a boolean típus a C++-beli bool-lal ellentétben nem tartozik az egész típusok
+            családjához. Ezért az <emphasis role="bold">if, for, do ,while </emphasis> utasításokban
+            feltételként csak logikai típusú kifejezést használhatunk, egészet vagy
+            objektumhivatkozást nem.</para>
+        <para><emphasis role="bold">Mutatók, referenciák</emphasis></para>
+        <para>Javában nincsenek külön objektumok és mutatók. A objektumok dinamikus tárterületen
+            jönnek létre és csakis hivatkozásokon keresztül érhetőek el, referencia vagy mutató
+            használata nélkül.</para>
+        <para>Nincsenek se függvénymutatók, se tagfüggvényre vagy adattagra mutató mutatók sem. Ezek
+            helyett objektum-referenciákat, visszatérési értékeket, tömböket, interfészeket
+            használhatunk.</para>
+        <para><emphasis role="bold">Operátorok, kifejezések</emphasis></para>
+        <para> A javában nem tudunk felhasználói operátorokat definiálni, így  be kell érnünk a
+            gyáriakkal. Megtalálható aritmetikai, logikai, bitmanipuláló, összehasonlító, kiválasztó
+            operátor is. Továbbá használhatunk egy úgynevezett előjel-kiterjesztéses >> , valamint
+            zéró-kiterjesztéses jobbraléptetést >>> is, vagyis a balról belépő bit mindig 0.</para>
+        <para>Az objektumtípusok körében ezek az operátorok használhatóak: </para>
+        <para><emphasis role="bold">?:</emphasis>                       kiválasztó</para>
+        <para><emphasis role="bold">== </emphasis>és <emphasis role="bold">!= </emphasis>
+            összehasonlító (azonos objektumokra hivatkozó referenciákra ad igazat)</para>
+        <para><emphasis role="bold">instanceof </emphasis>     típus-hasonlító</para>
+        <para><emphasis role="bold">+</emphasis>                       string-konkatenáció</para>
+        <para>Javában nem tudjuk az operátorokat túl terhelni, vagy magunknak definiálni. Vegyük
+            például ezt a  C++
+            kódcsipetet.<programlisting>cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; endl; </programlisting></para>
+        <para>Ez egy elegáns megoldás, amit az operátorok és referenciák tesznek lehetővé. Ha valami
+            hasonlót akarunk kihozni javában az így néz
+            ki:<programlisting>System.out.println(new StringBuffer(a).append(" ").append(b);</programlisting></para>
+        <para><emphasis role="bold">Const</emphasis></para>
+        <para>Javában ugyan létezik, de nincs jelentése. Viszont van egy <emphasis role="bold"
+                >final</emphasis> kulcsszó, ami <itemizedlist>
+                <listitem>
+                    <para>adattagra vonatkoztatva az adott változó értékének a változatlanságát
+                        jelenti</para>
+                </listitem>
+                <listitem>
+                    <para>metódusra vonatkoztatva a metódus felülbírálhatatlanságát,</para>
+                </listitem>
+                <listitem>
+                    <para>míg osztályra, azt, hogy nem lehet belőle származtatni.</para>
+                </listitem>
+            </itemizedlist></para>
+        <para><emphasis role="bold">Final minősítésű</emphasis> osztály például a String és a
+            primitív típusok burkolóosztályai: <emphasis role="bold">Byte, Character, Double, Float,
+                Integer, Long, Short</emphasis></para>
+        <para><emphasis role="bold">Argumetumok alapértelmezett értéke</emphasis></para>
+        <para>C++-ban egy függvény argumetumainak adhatunk alapértelmezett értéket. </para>
+        <para>
+            <programlisting>class x
+{
+    void doit(int x=0, int y=0);
+};
+</programlisting>
+        </para>
+        <para>Viszont javában erre nincs lehetőség, így manuálisan kell megadni.</para>
+        <para>
+            <programlisting>class x 
+{
+    void doit()
+    {
+        doit(0,0);
+    }
+    void doit(int x)
+    {
+        doit(x,0);
+    }
+    void doit(int x,int y)
+    {
+        //...
+    }
+}</programlisting>
+        </para>
+        <para><emphasis role="bold">Utasítások</emphasis></para>
+        <para>A <emphasis role="bold">for</emphasis>utasításban java nyelvben is deklarálhatunk
+            ciklusváltozót, viszont nem deklarálhatunk változót az <emphasis role="bold"
+                >if</emphasis> utasításban.</para>
+        <para><emphasis role="bold">Osztályok, interfészek, öröklődés</emphasis></para>
+        <para>A java nyelvi szinten megkülönböztet osztályokat( absztrakt, nem absztrakt) és
+            interfészeket. </para>
+        <para>Az öröklődést az <emphasis role="bold">extends</emphasis> kulcsszó jelzi, és itt nincs
+            megkülönböztetés private, protected és public öröklődés között.</para>
+        <para>Ha egy osztályt <emphasis role="bold">abstract</emphasis> kulcsszóval deklarálunk,
+            akkor egyrészt nem példányosítható, másrészt lehetnek benne csak deklarált, de nem
+            implementált metódusok.</para>
+        <para>Az olyan "absztrakt osztályokra", amikben csak konstansok és implementáció nélküli
+            függvények vannak, külön bevezették az interfészt. Az <emphasis role="bold"
+                >interface</emphasis> kulcsszóval tudjuk deklarálni őket.Öröklődés jelölésére itt is
+            az <emphasis role="bold">extends</emphasis> kulcsszót használjuk. Tudni illik, hogy a
+            java támogatja az interfészek esetén a többszörös öröklődést, viszont osztályokra ez nem
+            vonatkozik. Ha jelezni akarjuk, hogy egy osztály egy interfészt implementál, akkor az
+                <emphasis role="bold">implements</emphasis> kulcsszót használjuk.</para>
+        <para><emphasis role="bold">Hozzáférési kategóriák</emphasis></para>
+        <para>A java támogatja a <emphasis role="bold">félnyilvános</emphasis> hozzáférési
+            kategóriát, a másik 3 mellett, amit C++-ban megtalálható(private,public, protected).
+            Másképp csomagszintű elérhetőség.</para>
+        <para>A java-ban a <emphasis role="bold">public</emphasis> vonatkozhat egy osztályra is, de
+            ha nem adjuk meg az adott osztály csak a saját csomagjából érhető el. </para>
+        <para>Az interfészek minden tagja automatikusan public, de maga az interfész nem az.</para>
+        <para><emphasis role="bold">Friend</emphasis></para>
+        <para>Nincs barátság. Ennek kiküszöbölésére a java beágyazott osztályokat használ. Hasonlít
+            a C++-éhoz, de mégis lényegi különbség van köztük. A beágyazott java osztály metódusai
+            elérik a a beágyazás helyén látható változókat.</para>
+        <para><emphasis role="bold">Felsorolási típus</emphasis></para>
+        <para>Javában sokáig nem volt, viszont az 5-ös verzióban bevezetésre került. Tipikusan egy
+                <emphasis role="bold">for each</emphasis> ciklusban szokták használni. Rendelkeznek
+            az <emphasis role="bold">Object</emphasis> osztály metódusaival és megvalósítják a
+                <emphasis role="bold">Comparable</emphasis>  és <emphasis role="bold"
+                >Seriazable</emphasis> interfészeket. </para>
+        <para>Minden felsorolási típus rendelkezik egy statikus values metódussal, amely egy tömbbel
+            tér vissza, amiben a felsorolási típusban deklarált értékek vannak deklarációjuk
+            sorrendjében.</para>
+        <para>Rendelkezésünkre áll a <emphasis role="bold">java.util</emphasis> package-ben
+            létrehozott két segédosztály. <emphasis role="bold">EnumSet</emphasis> egy Set
+            megvalósítás és részintervallumok meghatározására szolgál, míg az <emphasis role="bold"
+                >EnumMap</emphasis> egy olyan nagyhatékonyságú Map megvalósítás, amit akkor
+            használunk, ha egy felsorolási értékhez rendelünk hozzá valamit.</para>
+        <para><emphasis role="bold">String</emphasis></para>
+        <para>Javában is van beépített String osztály, két bájtos Unicode karakterek füzérét
+            ábrázolja. Ez egy <emphasis role="bold">final</emphasis>, tehát nem származtathatunk
+            belőle másik osztályt.</para>
+        <para>Létrejötte után nem módosítható,karakterei nem cserélhetőek ki, újabb karakterek nem
+            fűzhetőek hozzá. Ezek miatt is hívjuk a java stringeket <emphasis role="bold"
+                >szálbiztosnak</emphasis>. Ha változtatható karaktersorozatra van szükségünk,
+            alkalmazzuk a <emphasis role="bold">StringBuffer</emphasis> osztályt.</para>
+        <para>Ha egy osztályban egy metódust <emphasis role="bold">final</emphasis> minősítővel
+            látunk el, akkor öröklő osztályban azonos nevű metódus nem szerepelhet. A gyári
+            osztályok között sok final metódus fordul elő, például az <emphasis role="bold"
+                >Object</emphasis> általános ősosztálynak a párhuzamos végrehajtási szálak
+            szinkronizációjával kapcsolatos metódusok ilyenek, hiszengond lehet abból, ha valaki
+            ezeket felülbírálná.</para>
+        <para>Egy osztály metódusából egy szülőosztálybeli tag szükség esetén a <emphasis
+                role="bold">super</emphasis> kulcsszóval érhető el, akkor is, ha túl van terhelve
+            vagy el van fedve.</para>
+        
+    </section>   
+          
+          
+</chapter>  
+
+

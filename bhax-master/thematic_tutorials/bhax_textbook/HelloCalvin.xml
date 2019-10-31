@@ -1,0 +1,109 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Calvin!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>MNIST</title>
+        <para><link xlink:href="https://www.tensorflow.org/install"/></para>
+        <para>Hol is kezdjem? Mi is az az MNIST? Egy elég nagy adatbázis, amely tanítóanyagot
+            biztosít. Számszerint 60000 példával rendelkezik.  Ennyi kép áll rendelkezésre a
+            tanuláshoz. Ezek kézzel írott arab számok. A feladat,hogy minél nagyobb , pontossággal
+            felismerje a teszt képünket.</para>
+        <para>Mielőtt neki látunk, telepíteni kell egy rakat dolgot. A következő parancsok
+            használatával könnyedén fel tudod telepíteni. Persze nekem órákba került, mire
+            működésre bírtam. Rengeteg errort kaptam, de ezektől most eltekintek.</para>
+        <para>
+            <programlisting>sudo apt install python3-dev python3-pip
+sudo pip3 install -U virtualenv # system-wide install
+virtualenv --system-site-packages -p python3 ./venv
+source ./venv/bin/activate # sh, bash, ksh, or zsh  //aktiválod a virtuális
+pip install --upgrade pip                              //környezetet  
+pip install --upgrade tensorflow
+#ellenőrizzük, hogy helyesen települt-e
+python -c "import tensorflow as tf; tf.enable_eager_execution(); 
+            print(tf.reduce_sum(tf.random_normal([1000, 1000])))"
+
+Ha keras-t akarsz "használni", akkor még ezt is írd be, 
+persze miután aktiváltad a virtuális környezet:
+sudo pip3 install keras</programlisting>
+        </para>
+        <para>Felmerülhet a kérdés, hogy melyiket használd. Melyik a jobb? Szerintem egyik sem jobb
+            a másiknál. De amúgy 2017 közepe környékén a Kerast teljes mértékben adoptálták és
+            beépítették a TensorFlowba, ami egy nyílt forrású matematikai könyvtár. Optimalizált és
+            tesztelt algoritmusokat biztosít a számításainkhoz.</para>
+        <para>A Kód az alábbi linken elérhető:</para>
+        <para><link
+                xlink:href="https://github.com/nohar92/Prog2/blob/master/bhax-master/Harmati%20Norbert/prog2/mnist.py"
+            /></para>
+        <para>Na de nézzük működés közben:</para>
+        <para>Első körben egy négyest kell felismernie. Viszont, ahogy azt a képen is láthatjuk egy
+            hetest dobott vissza. Valami nem tökéletes.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/9.%20csokor/mnist/kep/73254952_416344409050680_385368238441103360_n.png"
+                    />
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para>Essünk neki még egyszer.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/9.%20csokor/mnist/kep/teszt2.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Harmadjára sikerült neki.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/9.%20csokor/mnist/kep/teszt3.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para/>
+        <para> </para>
+    </section>
+
+    <section>
+        <title></title>
+        <para>
+
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása:
+        </para>
+        <para>
+            Tanulságok, tapasztalatok, magyarázat...
+        </para>
+    </section>
+
+    <section>
+        <title></title>
+        <para>
+
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása:
+        </para>
+        <para>
+            Tanulságok, tapasztalatok, magyarázat...
+        </para>
+    </section>
+
+    
+
+
+</chapter>

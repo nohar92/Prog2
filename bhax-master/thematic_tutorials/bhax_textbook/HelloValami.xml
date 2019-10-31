@@ -1,0 +1,178 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Valami!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Future tevékenység editor</title>
+        <para> Feladatunk az volt, hogy javítsunk valamit az ActivityEditor.java JavaFx programon!
+            Amit először észrevettem, hogy nem tudok új altevékenységet létrehozni, ahova már
+            létrehoztam korábban.Tehát egymás után nem lehetséges kettőt vagy többet is
+            létrehozni.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/7.csokor/FutureEditor/cannot_create.png"
+                    />
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para>Viszonylag egyszerű volt orvosolni ezt a problémát.  Egy végtelen ciklusba raktam a
+            mappa létrehozást, hozzáadtam egy számlálót is, amit hozzáfűztem a a mappa nevének a
+            végéhez, így kiküszöbölve a duplikátumok létrehozását. </para>
+        <para>
+            <programlisting>subaMenuItem.setOnAction((javafx.event.ActionEvent evt) -> {
+int i=1;
+               while (true){
+               java.io.File file = getTreeItem().getValue();
+
+               java.io.File f = new java.io.File(file.getPath() + System.getProperty("file.separator") + "Új altevékenység"+ i);
+
+
+               if (f.mkdir()) {
+                   javafx.scene.control.TreeItem&lt;java.io.File> newAct
+//                           = new javafx.scene.control.TreeItem&lt;java.io.File>(f, new javafx.scene.image.ImageView(actIcon));
+                          = new FileTreeItem(f, new javafx.scene.image.ImageView(actIcon));                            
+                   getTreeItem().getChildren().add(newAct);
+                   break;
+               } else {
+                   ++i;
+                   //f.renameTo(new File(file.getPath() + System.getProperty("file.separator") + uj_atevekenyseg+String.valueOf(i)));
+                 //  System.err.println("Cannot create " + f.getPath() +" but we increased the i and we'll try again");
+
+               }
+           }});</programlisting>
+        </para>
+        <para>Ahogy a képen is látszik, most már tetszőleges számú altevékenységet tudunk
+            létrehozni.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/7.csokor/FutureEditor/success.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>
+            <inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/7.csokor/FutureEditor/tree.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+
+    <section>
+        <title>BrainB</title>
+        <para> A feladat az volt, hogy mutassuk be a Qt slot-signal mechanizmust ebben a projektben.
+            A Qt-ben az objektumok képesek magukból signalokat "kisugározni" ( emittálni). Egy jól
+            implementált signal csak, akkor emittál, ha történik vele valami érdemleges. A Qt-ben az
+            objektumoknak lehetnek slotjaik is. Ezek olyan speciális tagfüggvények, amik képesek
+            észrevenni a signalok " kisugárzását". A slotokat a signalokhoz a <emphasis role="bold"
+                >connect()</emphasis> függvénnyel lehet összekapcsolni, viszont a szignatúrájuknak
+            meg kell egyezniük. </para>
+        <para>Felhasznált forrás: <link xlink:href="https://doc.qt.io/qt-5/signalsandslots.html"
+            /></para>
+        <para>A projektünkben két ilyen összekapcsolás
+            található.<programlisting>connect ( brainBThread, SIGNAL ( heroesChanged ( QImage, int, int ) ),
+          this, SLOT ( updateHeroes ( QImage, int, int ) ) );
+
+connect ( brainBThread, SIGNAL ( endAndStats ( int ) ),
+          this, SLOT ( endAndStats ( int ) ) );
+</programlisting></para>
+        <para>A fenti kódcsipetben két <emphasis role="bold">connect()</emphasis> van implementálva.
+            Négy paramétere van ennek a függvénynek. Az első az a küldő objektum, a második egy
+            signal, jelen esetben a <emphasis role="bold">heroesChanged()</emphasis>, ami kiabál,
+            hogy "megváltozott". A harmadik a fogadó objektum,ami jelen esetben a BrainBWin. A
+            negyedik az updateHeroes slot, ami meghallja a signal kiabálását és lefut az
+            updateHeroes függvénye. </para>
+        <para>Az endAndStats esetén is így történik minden. Viszont ez, akkor emittál, ha lejár a
+            játék idő és ezután kiíródik, hogy vége a játéknak és a játékban elért eredményünket is
+            megjeleníti.</para>
+        <para/>
+    </section>
+
+    <section>
+        <title>SamuCam</title>
+        <para> A feladat az volt, hogy mutassunk rá a webcam( pl. Adroidos mobil) kezelésére ebben a
+            projektben. Ezt a SamuCam.cpp fájlban találjuk meg.</para>
+        <para>Felhasznált forrás: </para>
+        <para><link xlink:href="https://docs.opencv.org/3.4/d3/d63/classcv_1_1Mat.html"/></para>
+        <para><link
+                xlink:href="https://docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/histogram_equalization/histogram_equalization.html"
+            /></para>
+        <para><link xlink:href="https://docs.opencv.org/3.4/db/d4e/classcv_1_1Point__.html#details"
+            /></para>
+        <para>Nézzük az első kódcsipetet, ahol megírjuk a konstruktort. Kap egy videoStream
+            stringet, amiben a webcam ip címét tároljuk, valamint két int típusú változót, amivel
+            kép szélességét, magasságát határozzuk meg. </para>
+        <para>
+            <programlisting>SamuCam::SamuCam ( std::string videoStream, int width = 176, int height = 144 )
+  : videoStream ( videoStream ), width ( width ), height ( height )
+{
+  openVideoStream();
+}</programlisting>
+        </para>
+        <para>A konstruktor törzsében meghívjuk az openVideoStream() metódust, amivel megnyitjuk a
+            streamet. A videoCapture objektumra meghívjuk a set tagfüggvényt, amivel beállítjuk a
+            videó méretét és fps-ét.</para>
+        <para>
+            <programlisting>void SamuCam::openVideoStream()
+{
+  videoCapture.open (videoStream);
+
+  videoCapture.set ( CV_CAP_PROP_FRAME_WIDTH, width );
+  videoCapture.set ( CV_CAP_PROP_FRAME_HEIGHT, height );
+  videoCapture.set ( CV_CAP_PROP_FPS, 10 );
+}</programlisting>
+        </para>
+        <para>A következő a <emphasis role="bold">run()</emphasis> metódus. Először létrehozzuk a
+            CascadeClassifier-t, amivel képeket tudunk elemezni. Egy faceXML stringnek  értékül
+            adunk egy linket, ami több xml fáljra mutat. Majd a faceClassifier változóba betöltjük
+            ezeket. Ha nem sikerült akkor kiírunk egy hibaüzenetet.</para>
+        <para>
+            <programlisting>void SamuCam::run()
+{
+
+  cv::CascadeClassifier faceClassifier;
+
+  std::string faceXML = "lbpcascade_frontalface.xml"; // https://github.com/Itseez/opencv/tree/master/data/lbpcascades
+
+  if ( !faceClassifier.load ( faceXML ) )
+    {
+      qDebug() &lt;&lt; "error: cannot found" &lt;&lt; faceXML.c_str();
+      return;
+    }
+</programlisting>
+        </para>
+        <para>Egy ciklussal folytatódik a kódunk, ahol két féltételt is implementáltunk. A ciklus
+            addig megy, amíg van képkocka, amit betudunk olvastatni a <emphasis role="bold"
+                >read()</emphasis> függvénnyel. Ez egyébként 80 milliszekundomonként ismétlődik. Ez
+            a függvény a <emphasis role="bold">Mat</emphasis> tömbbe menti a beolvasott képet.
+            Ezután a <emphasis role="bold">resize()</emphasis> metódussal, újra méretezzük, és
+            interpoláljuk. Majd a  <emphasis role="bold">cvtColor()</emphasis> átkonvertálja a
+            képszínterét  grayscale-re. A kövi függvény <emphasis role="bold"
+                >equalizeHist()</emphasis> javítja a kép kontrasztját az intenzitástartomány
+            kibővítével. A <emphasis role="bold">detectMultiScale()</emphasis> függvénnyel különböző
+            méretű objektumokat keresünk az input képben, a megtalált objektumok egy rectangle
+            listaként kerülnek visszatérítésre. Az első talált arcból egy QImage-t készítünk, amit
+            majd a SamuBrain osztály fog feldolgozni a faceChanged signal emittálása után. Ezután az
+            arc köré, rajzolunk egy keretet, amiből egy új QImaget csinálunk. Ezt továbbadjuk,  majd
+            a SamuLife számára, ami frissíteni fogja a</para>
+        <para>megjelenítendő webcam képet. Sajnos  a laptopom kamerája nem működik , így a kép
+            megjelenítésétől most eltekintek.</para>
+        <para>
+            <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/7.csokor/SamuCam/k%C3%B3d.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+
+    
+
+
+</chapter>

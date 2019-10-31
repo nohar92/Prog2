@@ -1,0 +1,187 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Chomszky!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Encoding </title>
+        <para><link
+                xlink:href="https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/adatok.html"
+            /></para>
+        <para>Feladatunk az volt, hogy futtasuk a Mandelbrothalmaznagyító java forrást úgy, hogy a
+            fájl nevekben és a forrásokban is meghagyjuk az ékezetes betűket!</para>
+        <para>A feladatom gyakorlatilag annyi volt, hogy a fentebb linkelt oldalról, letöltöttem a
+            fájlokat és átírtam ékezetesekre a források neveit. Ezután, ha a szokásos módon
+            fordítanánk terminálon hibát kapnánk.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/4.csokor/Encoding/hiba_encoding.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Viszont megfelelő kapcsolók segítségével könnyen fordíthatóvá tehetjük a
+            kódunkat.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/4.csokor/Encoding/encoding.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/4.csokor/Encoding/mandelbrot.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+    </section>
+
+    <section>
+        <title>l334d1c4</title>
+        <para>
+            <link xlink:href="https://simple.wikipedia.org/wiki/Leet."/></para>
+        <para>A feladat az volt, hogy írjunk olyan OO Java vagy C++ osztályt, amely leet cipherként
+            működik, azaz megvalósítja a fenti linken található betűhelyettesítést. Nézzük végig a
+            forrás kódot. Kezdjük az osztálydefiníciójával. Példányosítottam 2 string és egy hashmap
+            objektumot, valamint beleírtam még egy print metódust is, amit később meg akarok majd
+            hívni.</para>
+        <para>
+            <programlisting>class LeetCypher {
+	private static String leet = new String();
+	private static String alphabet = new String();	
+	Map&lt;String, String> character = new HashMap&lt;String, String>();
+
+	public void print(String leet) {
+		System.out.println(leet);
+	};</programlisting>
+        </para>
+        <para>Többféle adatszerkezet használatával próbálkoztam, de végül a map-ot definiáltam. Ez
+            volt számomra a legkényelmesebb a feladat megoldása szempontjából, ahogy láthatjuk az
+            alábbi kódcsipetben "kulcs-érték párokat" hoztam létre. A <emphasis role="bold"
+                >transform </emphasis>függvényem átalakítja az angol ABC betűit görög betűkké. A
+            görög betűket unicode-ok segítségével oldottam meg.</para>
+        <para>
+            <programlisting>public void transform(String alphabet) {
+		character.put("A", "\u0391");
+		character.put("B", "\u0392");
+		character.put("C", "\u0393");
+		character.put("D", "\u0394");
+		character.put("E", "\u0395");
+		character.put("F", "\u03AA");
+		character.put("G", "\u0397");
+		character.put("H", "\u0398");
+		character.put("I", "\u0399");
+             ...}</programlisting>
+        </para>
+        <para> Ezután létrehoztam egy konstruktort, amibe elhelyeztem a korábban említett print és
+            transform metódusokat.</para>
+        <para>
+            <programlisting>public LeetCypher() {
+
+		transform(alphabet);
+		print(leet);
+	}</programlisting>
+        </para>
+        <para>Majd a main függvényben egy try - catch, try részében példányosítok egy StringBuilder
+            típusú builder nevű objektumot . Ezt az osztályt akkor használjuk, ha egy adott szövegen
+            szeretnénk változtatni. A kapacitásának inicializálásával egy elfogadható méretre
+            minimalizálhatjuk a memóriafoglalások számát, amivel sokkal hatékonyabbá tehetjük
+            programunkat, hisz a memóriafoglalás elég költséges művelet. Például, ha elfogyna a
+            szabad kapacitás  az objektumunkban, akkor egy új, de kétszer akkora memóriaterület lesz
+            lefoglalva, a régi tartalom átmásolásra kerül. Ebből is látszik, hogy érdemes megadni
+            neki legalább egy becsült kapacitást.</para>
+        <para>
+            <programlisting>try {
+	StringBuilder builder = new StringBuilder(alphabet.length());
+	    for (String str : args) {
+		  builder.append(str + ' ');
+           }
+
+	alphabet = builder.toString();
+	alphabet = alphabet.toUpperCase();
+	new LeetCypher();
+
+    } 
+catch (Exception e) {
+	usage();
+    } </programlisting>
+        </para>
+        <para>Meghívjuk a LeetCyhper konstruktort, ami a felhasználó által begépelt karaktereket a
+            görög ABC betűire cseréli ki, mjad kiírja azt a standard outputra, figyelembe véve a
+            kis-nagy betűket is. Ha nem megfelelő a begépelt string, akkor a catch részben dobunk
+            egy üzenetet, a helyes használatról.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/4.csokor/lexer/cypher.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+
+    <section>
+        <title>Paszigráfia Rapszódia OpenGL full screen vizualizáció</title>
+        <para>Lásd vis_prel_para.pdf! Apró módosításokat eszközölj benne, pl. színvilág, textúrázás,
+            a szintek jobb elkülönítése, kézreállóbb irányítás.</para>
+        <para><emphasis role="italic">Paszigráfia Rapszódia</emphasis> – az esport kultúra nyelve. </para>
+        <para>Mielőtt hozzá kezdenénk a feladathoz, először le kell töltenünk 2 csomagot,
+            nevezetesen a <emphasis role="bold">libbost</emphasis>-ot és a <emphasis role="bold"
+                >freeglut3</emphasis>-t, hogy fordítható legyen a programunk, különben hasonló hiba
+            üzeneteket kaphatunk fordításnál, mint ahogy azt én is tapsztaltam:</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/4.csokor/Paszigr%C3%A1fia_Rapsz%C3%B3dia/error.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/4.csokor/Paszigr%C3%A1fia_Rapsz%C3%B3dia/error2.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Rákeresve az egyik legnépszerűbb keresőoldalon, ezen a linken találtam segítséget: </para>
+        <para><link
+                xlink:href="https://askubuntu.com/questions/432732/fatal-error-gl-glut-h-no-such-file-or-directory"
+            /></para>
+        <para> Terminálból könnnyen telepíthetőek. Bár ahogy, így utólag néztem Bátfai tanár úr
+            kódjában be van kommentelve, hogy mit kell feltelepíteni és hogy hogyan kell fordítani,
+            futtatni. Legközelebb jobban
+            figyelek.<programlisting>sudo apt-get install libboost-all-dev
+sudo apt-get install freeglut3-dev</programlisting></para>
+        <para>A freeglut3-at a grafikus megjelenítésre használjuk. Népszerű alternatívája OpenGL
+            Utility Toolkit-nek, hisz használata könnyebb.</para>
+        <para>Egyik feladatom a színvilág megváltoztatása volt. Ezt az alábbi kódcsipet segítségével
+            értem el. A kedvenc színem a király kék, így ezt a hátteret
+            választottam.<programlisting>glClearColor ( 0.8f, 2.0f, 0.5f, 1.0f );</programlisting></para>
+        <para>Megváltoztattam a kockák dőlés szögét és elhelyezkedését
+            is:<programlisting> gluLookAt ( 2.0f, 6.0f, 5.0f ,1.0f ,3.5f ,2.0f ,3.0f ,3.0f ,8.0f );</programlisting></para>
+        <para>Majd a <emphasis role="bold">keyboard</emphasis> metódust bővítettem egy kilépő
+            funkcióval.Vagyis mostanstól azt <emphasis role="bold">esc</emphasis> lenyomásával
+            kitudunk lépni a progiból.</para>
+        <para>
+            <programlisting>else if (key == 27)
+        {
+                exit(0);
+        }
+</programlisting>
+        </para>
+        <para>Végül egy screenshot a program működéséről.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/4.csokor/Paszigr%C3%A1fia_Rapsz%C3%B3dia/kockak.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+
+    
+
+
+</chapter>

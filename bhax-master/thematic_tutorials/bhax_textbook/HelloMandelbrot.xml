@@ -1,0 +1,110 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Mandelbrot!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    <section>
+        <title>Reverse engineering UML osztálydiagram</title>
+        <para>Feladatunk az volt, hogy a tavalyi védési feladathoz kellett UML osztálydiagramot
+            készíteni. A forrásból kellett legenerálnunk ezt a diagramot. Én az umbrello nevű
+            programot használtam.</para>
+        <para>Először <emphasis role="bold">sudo apt install umbrello</emphasis> parancsot beírva a
+            terminálba feltelepítettem a programot. Viszonylag könnyen rájöttem a  program
+            használatára, beszédes </para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/3.csokor/reverse/umldiag.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Nézzük meg az aggregáció és kompozíció fogalmakat. Az aggregáció olyan asszociáció
+            ,ami tartalmazást jelöl, jele: egy üres rombusz a tartalmazó oldalán. Míg kompozíciónál
+            a tartalmazott objektum pontosan egy tartalmazó objektumhoz tartozik. A tartalmazó és a
+            tartalmazott objektum együtt jön létre, és együtt szűnik meg. Jele tele rombusz.
+            Általában a kompozíciót ugyanúgy implementáljuk, mint az asszociációt, de ilyenkor
+            destruktorban meg kell írnunk a felszabadító kódot.</para>
+    </section>
+    <section>
+        <title>Forward engineering UML osztálydiagram</title>
+        <para> Ebben a feldatban az előző feladat ellenkezőjét kellett végrehajtani. UML-ben kellett
+            terveznünk osztályokat és generálni kellett belőlük forrást!</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/3.csokor/forward/umldiag2.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Az előző feladatban elkészült UML diagramból generáltam vissza a fentebb látható
+            forrásokat. Futtatásnál több, hibát is kiírt a fordító. Az umbrello pl. lehagyta a
+            relációkat, amikor inklúdoltam például a string header fájlt. Másik hiba, hogy lehagyott
+            egy aposztrófot a csomópont konstruktoránál, ahol beállítjuk, hogy mi legyen az értéke a
+            gyökérnek.</para>
+        <para>Végül egy csipet a kódból.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/3.csokor/forward/csipet.png"
+                        ><!--Ahogy azt láthatjuk, a metódusokat létrehozta az umbrello, de a törzsükbe nem implementált semmit, hisz nemtudja honnan implementálni.--></imagedata>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+    </section>
+    <section>
+        <title>Esettan</title>
+        <para> </para>
+        <para>Feladatunk, hogy feldolgozzuk a szoftverfejlesztés című könyv 14. fejezetét, azaz
+            mindent,amit az uml diagramokról tudni érdemes.</para>
+        <para> Legfontosabb elemei az osztályok, ezeket téglalappal jelöljük. 3 részre tudjuk
+            osztani: felül az osztályneve, középen a tagváltozói, míg alul az osztály
+            tagfüggvényei,metódusai találhatók.</para>
+        <para><emphasis role="bold">Szintaxis</emphasis></para>
+        <para>A láthatósági szinttel kezdjük, ami lehet public(+), private (-), protected(#),
+            valamint package(~) is , nyílván azutóbbi c++-ban nem definiált. A származtatott
+            tagváltozókat / jellel jelöljük. A konstans tagváltozókat read-only tulajdonsággal
+            jelöljük. </para>
+        <para>A tagfüggvényeket szintén láthatósági névvel látjuk el először , majd a paraméter
+            listával, végül a visszatérési értékkel. A paraméterlsita szintaxisa: irány név: típus =
+            alap érték. </para>
+        <para>Az irány 3 féle lehet :<itemizedlist>
+                <listitem>
+                    <para>in(érték szerinti paraméterátadás)</para>
+                </listitem>
+                <listitem>
+                    <para>out (referenci szerinti )</para>
+                </listitem>
+                <listitem>
+                    <para>inout( pointert adunk át)</para>
+                </listitem>
+            </itemizedlist></para>
+        <para><emphasis role="bold"> Kapcsolatok</emphasis></para>
+        <para><emphasis role="underline">Asszociáció</emphasis>: Amikor két osztály elakarja érni
+            egymás objektumait,akkor van szükség asszociációra. Vonallal jelöljük. A vonalra
+            kerülnek az érintett objektumok nevei. Valamint egy nyíl jelöli az irányt.</para>
+        <para><emphasis role="underline">Szerepnév</emphasis>: megmutatja, hogy miként vesz részt az
+            adott osztály az asszociációban.</para>
+        <para>Az asszociációnak van két speciális fajtája, a <emphasis role="bold"
+                >kompozíció</emphasis> és az <emphasis role="bold">aggregáció</emphasis></para>
+        <para><emphasis role="bold">Aggregáció</emphasis>: Olyan asszociáció ,ami tartalmazást
+            jelöl, jele: egy üres rombusz a tartalmazó oldalán</para>
+        <para><emphasis role="bold">Kompozíció</emphasis>: A tartalmazott objektum pontosan egy
+            tartalmazó objektumhoz tartozik. A tartalmazó és a tartalmazott objektum együtt jön
+            létre, és együtt szűnik meg. Viszont ha a tartalmazott objektumból biztosan nem
+            származik semmi, akkor a kompozíciót implementálhatjuk pointer helyett objektumként, ami
+            tagváltozóként vagy statikus/ dinamikus tömb tagváltozóként jelenik meg.</para>
+        <para>A feladat második részében a könyben szereplő esett tanulmányt kellett tanulmányozni.
+            Ebben nagy segítségemre volt Levendovszky CD melléklete, amit az Ncore-ról vettem  és
+            Feri könyve is, amit így útólag is köszönök.  Ez egy raktár kezelő program, ami
+            adatfolyamból olvassa és  oda is írja a készletet, ahogy azt az alábbi screenen is
+            láthatjuk.</para>
+        <para>A program futtás közben:</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/3.csokor/Esettan/esettan.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+</chapter>

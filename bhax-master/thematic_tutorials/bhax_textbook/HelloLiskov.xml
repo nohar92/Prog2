@@ -1,0 +1,147 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Hello, Liskov!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Liskow helyettesítés sértése</title>
+        <para>Feladatunk a Liskov-elv megsértése volt, ami a  következőt foglalja magába: Minden
+            osztály legyen helyettesíthető a leszármazottjával anélkül, hogy a program helyes
+            működése megváltozna. </para>
+        <para>Ebben  a feladatban lehetőségünk van megismerkedni a <emphasis role="bold"
+                >getterek</emphasis> és <emphasis role="bold">setterek</emphasis> használatával,
+            valamint az <emphasis role="bold">öröklődés</emphasis> és <emphasis role="bold"
+                >polimorfizmus</emphasis> fogalmak gyakorlati használatával.</para>
+        <para>
+            <programlisting>public class Liskov {
+
+	public static void main(String[] args) {
+
+		Rectangle r = new Rectangle();
+		r.setWidth(10);
+		r.setHeight(20);
+
+		System.out.println(r.getArea());
+
+		Square s = new Square();
+		s.setHeigth(10);
+		s.setWidth(20);
+		System.out.println(s.getArea());
+	}
+}</programlisting>
+        </para>
+        <para>Azt várjuk, hogy a szűlő <emphasis role="bold">Rectangle</emphasis>  és gyermek
+                <emphasis role="bold">Square</emphasis> ugyanúgy viselkedjenek, hisz Square
+            megörökölte Rectangle metódusait, jelen esetben a getArea()-t. Viszont futtatás után azt
+            látjuk, hogy a <emphasis role="bold">getArea()</emphasis> metódus az egyik esetben 200,
+            míg a másik esetben 400-zal tér vissza, mert a Square típusú objektum máshogy
+            viselkedik.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/2.%20csokor/Liskov/liskov.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+    
+    <section>
+        <title>Szülő-gyerek</title>
+        <para>A feladat az volt, hogy írjunk Szülő-gyerek Java és C++ osztálydefiníciót, amelyben
+            demonstrálni tudjuk, hogy az ősön keresztül csak az ős üzenetei küldhetőek! </para>
+        <para>Ebben a feladatban szintén lehetőségünk van ismerkedni a <emphasis role="bold"
+                >getterek</emphasis> és <emphasis role="bold">setterek</emphasis> használatával,
+            valamint az <emphasis role="bold">öröklődés</emphasis> és <emphasis role="bold"
+                >polimorfizmus</emphasis> fogalmak gyakorlati használatával.</para>
+        <para>
+            <programlisting>public class Macska {                                    
+                                                    
+	protected String m_name;                               
+	protected int  m_age;                                      	                                                    }   
+	public void setName(String name) {            
+		m_name = name;
+	}
+	
+	public void setAge(int age) {
+		m_age = age;
+	}
+	
+	public int getAge() {
+		return m_age;
+	}
+}</programlisting>
+            <programlisting>public class Kiscica extends Macska {
+
+    public String getName() {    
+    return m_name;
+}</programlisting>
+        </para>
+        <para>A bal oldalon látható a szűlő osztály, míg a jobb oldalon a gyerek osztály, amit
+            kiterjesztettünk a szűlőosztályra. Innentől kezdve a Kiscica használhat szinte minden
+            metódust, változót,(nyílván, ha private, akkor nem), ami a Macskában implementálva van.
+            Fordítva viszont nem igaz.</para>
+        <para>
+            <programlisting>public class MacskaKiscica {
+
+	public static void main(String[] args) {
+		
+		Macska m = new Macska();
+		m.setName("Hókuszpók");
+		m.setAge(49);
+		
+		Kiscica k = new Kiscica();
+		k.setName("Sziamiaú");
+		k.setAge(13);
+		
+		System.out.println(k.getAge() + " " + m.getName());
+	}
+}</programlisting>
+        </para>
+        <para>A main metódusunkban példányosítottuk a Macskát és a Kiscicát is, majd beállítottuk az
+            értékeket. A kiíratásnál azonban próblémába ütközünk. A korábban már említett ok miatt,
+            azt írja a fordító, hogy nincs definiálva a getName() a Macska osztályunkban, ami persze
+            igaz, hisz csak a Kiscicában lett létrehozva.Tehát láthatjuk, hogy  oda-vissza nem
+            működik az öröklődés.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/2.%20csokor/Szulo-gyerek/error.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>    
+          
+    <section>
+        <title>Ciklomatikus komplexicitás</title>
+        <para>forrás: <link
+                xlink:href="https://www.tankonyvtar.hu/en/tartalom/tamop425/0046_szoftverteszteles/ch04s04.html"
+            /></para>
+        <para>Az összetett jobb, a komplikáltnál. Az rendben van, hogy egy nagyon össszetett
+            szoftvert készítesz, de ne komplikált módon tedd ezt!</para>
+        <para>Ebben a feladatban, az volt a dolgunk, hogy egy általunk választott program
+            függvényeinek a ciklomatikus komlexitását számoljuk ki. Több programot is használhatunk
+            a számításhoz. Sajnos nekem többszöri próbálkozás után, több program használatával sem
+            sikerült. De végül csak megcsináltam. Pacsi :) Interneten megtalálható egy olyan
+            weboldal, ami az általad írt program forrás kódját kéri, hogy másold be oda és ő majd
+            kiszámolja neked a komplexitását a progidnak.  </para>
+        <para>Itt található: <link
+                xlink:href="http://www.lizard.ws/?fbclid=IwAR3IoZ8H3MOSFOt7weO_rqKQ8ekKkOfofBhInX2Pm7WJcc8GtOJDXBQbWMk"
+            /></para>
+        <para>Na de nézzük meg miről is van szó. Ciklomatikus komplexitás = vezérlési gráfban
+            megtalálható független utak száma.  Akkor mondjuk, hogy két út független, ha
+            mindkettőben van olyan pont vagy él, ami nem eleme a másik útnak.</para>
+        <para>És végül egy Screen, hogy lássuk valóban bemásoltam a forráskódot. </para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/2.%20csokor/Ciklomatikus%20komplexit%C3%A1s/ciklomatikus.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>   
+          
+          
+</chapter>  
+
+

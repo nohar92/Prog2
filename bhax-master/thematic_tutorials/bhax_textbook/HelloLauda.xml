@@ -1,0 +1,113 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Lauda!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Porn scan</title>
+        <para>A feladat az volt, hogy mutassunk rá a port szkennelő forrásban a kivételkezelés
+            szerepére.</para>
+        <para>
+            <programlisting>public class KapuSzkenner {
+
+    public static void main(String[] args) {
+        for(int i=0; i&lt;1024; ++i)
+            try {
+                java.net.Socket socket = new java.net.Socket(args[0], i);
+                System.out.println(i + " figyeli");
+                socket.close();
+                } 
+                catch (Exception e) 
+                {
+                    System.out.println(i + " nem figyeli");
+                }
+             }
+            }</programlisting>
+        </para>
+        <para>Fordítás, majd futtatás után azt kaptam, hogy nem figyel a szkennerünk semmit.</para>
+        <informalfigure>
+            <mediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/8.csokor/port_scan/nem_figyel.png"/>
+                </imageobject>
+            </mediaobject>
+        </informalfigure>
+        <para>Ezután kiírattam  a catch blokkban az exception-t, mert kíváncsi voltam miért nem
+            látja a portot.</para>
+        <para>
+            <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/8.csokor/port_scan/error.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>UnknownHostException-t kaptam. Tehát valamiért nem tetszik neki a host nevem. Ezt
+            kitudtam küszöbölni, úgy hogy a hostname helyett, azt adtam meg parancssori
+            argumentumként, hogy localhost.</para>
+        <para><link
+                xlink:href="https://stackoverflow.com/questions/6484275/java-net-unknownhostexception-invalid-hostname-for-server-local"
+            /></para>
+        <para>És végre figyel a csávó.</para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../../Harmati%20Norbert/prog2/8.csokor/port_scan/figyel.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+
+    <section>
+        <title>Junit teszt</title>
+        <para>A feladat az volt, hogy a  Tanár úr által készített posztban kézzel számított
+            mélységet és szórást dolgozzuk be egy Junit tesztbe. Vettünk egy rövid teszt sorozatot.
+            Jelen esetben 01111001001001000111, ezt beadjuk inputként a LZWBinFa.java  fájl
+            egyBitFeldoz() metódusának, ami karakterenként feldogozza a megadott sztringet. Ezután
+            az assertEquals metódussal lecsekkoljuk, hogy az értékek ugyanazok-e, mint amit Tanár úr
+            számolt. Ha ugyanaz jön ki, akkor jó a progi. Egyébként ez a metódus 3 paramétert kap.
+            Az első érték az, amit Tanár úr számolt, a második, amit a Binfa köpött ki, míg a
+            harmadik paraméter a megengedett eltérés az első két paraméter között. </para>
+        <para>
+            <programlisting>import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.Test;
+
+public class BinfaTest {
+
+	LZWBinFa binfa = new LZWBinFa();
+	
+	@Test
+public void test() {
+		for(char c: "01111001001001000111".toCharArray()) {
+			binfa.egyBitFeldolg(c);
+			System.out.println(c);
+		}
+		
+		assertEquals(4.0, binfa.getMelyseg(), 0.000001);
+		assertEquals(2.75, binfa.getAtlag(), 0.001);
+		assertEquals(0.95742, binfa.getSzoras(), 0.0001);
+	}
+}</programlisting>
+        </para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata
+                        fileref="../../Harmati%20Norbert/prog2/8.csokor/junit%20teszt/teszt.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para> </para>
+    </section>
+
+    <section>
+        <title>AOP</title>
+        <para/>
+        <para> </para>
+    </section>
+
+    
+
+
+</chapter>
