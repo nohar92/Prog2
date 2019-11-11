@@ -161,8 +161,12 @@ connect ( brainBThread, SIGNAL ( endAndStats ( int ) ),
             majd a SamuBrain osztály fog feldolgozni a faceChanged signal emittálása után. Ezután az
             arc köré, rajzolunk egy keretet, amiből egy új QImaget csinálunk. Ezt továbbadjuk,  majd
             a SamuLife számára, ami frissíteni fogja a</para>
-        <para>megjelenítendő webcam képet. Sajnos  a laptopom kamerája nem működik , így a kép
-            megjelenítésétől most eltekintek.</para>
+        <para>megjelenítendő webcam képet. </para>
+        <para><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="74601281_563142647768332_4414715760216113152_n.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
         <para>
             <inlinemediaobject>
                 <imageobject>
